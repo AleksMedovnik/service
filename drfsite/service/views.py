@@ -14,9 +14,26 @@ class UserAPIView(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        post_new = User.objects.create(
-            title=request.data['title'],
-            content=request.data['content'],
-            cat_id=request.data['cat_id']
-        )
-        return Response({'post': UserSerializer(post_new).data})
+        serializer.save()
+        return Response({'post': serializer.data})
+
+    def put(self, request, *args, **kwargs):
+        pk = kwargs.get('pk', None)
+        if not pk:
+            return Response({'error': 'Metod PUT not allowed'})
+        try:
+            instance = User.objects.get(pk=pk)
+        except:
+            return Response({'error': 'Object does not exists'})
+        serializer = UserSerializer(data=request.data, instance=instance)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'post': serializer.data})
+
+    def delete(self, request, *args, **kwargs):
+        pk = kwargs.get('pk', None)
+        if not pk:
+            return Response({'error': 'Metod DELETE not allowed'})
+
+        # Code...
+        return Response({'post': f'delete post {str(pk)}'})

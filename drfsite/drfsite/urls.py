@@ -20,4 +20,5 @@ from service.views import UserAPIView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/userlist/', UserAPIView.as_view()),
+    path('api/v1/userlist/<int:pk>/', UserAPIView.as_view()),
 ]
