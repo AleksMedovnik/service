@@ -1,8 +1,13 @@
-from django.forms import model_to_dict
 from rest_framework.response import Response
+from rest_framework import generics
 from rest_framework.views import APIView
 from .models import User
 from .serializers import UserSerializer
+
+
+class UserAPIList(generics.ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
 
 class UserAPIView(APIView):
