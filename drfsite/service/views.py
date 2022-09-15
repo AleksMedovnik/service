@@ -29,11 +29,3 @@ class UserAPIView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({'post': serializer.data})
-
-    def delete(self, request, *args, **kwargs):
-        pk = kwargs.get('pk', None)
-        if not pk:
-            return Response({'error': 'Metod DELETE not allowed'})
-
-        # Code...
-        return Response({'post': f'delete post {str(pk)}'})
