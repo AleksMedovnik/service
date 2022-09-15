@@ -1,6 +1,4 @@
-from rest_framework.response import Response
 from rest_framework import generics
-from rest_framework.views import APIView
 from .models import User
 from .serializers import UserSerializer
 
@@ -10,27 +8,11 @@ class UserAPIList(generics.ListCreateAPIView):
     serializer_class = UserSerializer
 
 
-class UserAPIView(APIView):
+class UserAPIUpdate(generics.UpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
-    def get(self, request):
-        u = User.objects.all()
-        return Response({'posts': UserSerializer(u, many=True).data})
 
-    def post(self, request):
-        serializer = UserSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response({'post': serializer.data})
-
-    def put(self, request, *args, **kwargs):
-        pk = kwargs.get('pk', None)
-        if not pk:
-            return Response({'error': 'Metod PUT not allowed'})
-        try:
-            instance = User.objects.get(pk=pk)
-        except:
-            return Response({'error': 'Object does not exists'})
-        serializer = UserSerializer(data=request.data, instance=instance)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response({'post': serializer.data})
+class UserAPIDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
