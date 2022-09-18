@@ -18,12 +18,14 @@ from django.urls import path, include
 from service.views import *
 from rest_framework import routers
 
-router = routers.SimpleRouter()
-router.register(r'users', UserViewSet)
+router_users = routers.SimpleRouter()
+router_users.register(r'users', UserViewSet)
+
+router_cat = routers.SimpleRouter()
+router_cat.register(r'cat', CatViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/', include(router.urls)),
-    # path('api/v1/userlist/', UserViewSet.as_view({'get': 'list'})),
-    # path('api/v1/userlist/<int:pk>/', UserViewSet.as_view({'put': 'update'})),
+    path('api/v1/', include(router_users.urls)),
+    path('api/v1/cats/', include(router_cat.urls)),
 ]
