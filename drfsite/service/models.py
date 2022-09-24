@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User as Manager
 
+
 class User(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField(blank=True)
@@ -19,4 +20,3 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
-
